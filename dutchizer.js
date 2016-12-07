@@ -1,6 +1,9 @@
 var translations = {
-    'woman' : 'vrouw',
-    'man' : 'man',
+    'altogether' : 'allemaal',
+    'course' : 'de cursus',
+    'teacher' : 'de docent',
+    'two' : 'twee',
+    'other' : 'andere',
 };
 
 var engine = {
@@ -38,10 +41,16 @@ $( document ).ready( function() {
                         englishWord = engine.pickAnEnglishWord();
                         $LBL_englishWord.text( englishWord );
                         $TXT_dutchWord.val('');
+                        $LBL_result.text('');
                     }, 1000
                 );
             } else {
-                $LBL_result.text('try again');
+                $LBL_result.text("solution is: '" + translations[englishWord] + "', Type it!");
+                setTimeout(
+                    function() {
+                        $LBL_result.text('');
+                    }, 2000
+                );
             };
         };
     });
