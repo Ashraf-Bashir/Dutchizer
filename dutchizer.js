@@ -31,7 +31,7 @@ $( document ).ready( function() {
 
     var englishWord = engine.pickAnEnglishWord();
     $LBL_englishWord.text( englishWord );
-    
+
     $TXT_dutchWord.on('keyup', function(event) {
         if (event.keyCode == 13) {
             if ( engine.isCorrectTranslation( englishWord, this.value ) ) {
