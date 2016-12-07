@@ -1,2 +1,2 @@
 # Dutchizer
-A tool to self-learn dutch
+A tool to self-learn Dutch
