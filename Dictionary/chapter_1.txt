@@ -1,0 +1,5 @@
+altogether	allemaal
+course	de cursus
+teacher	de docent
+two	twee
+other	andere
