@@ -77,8 +77,12 @@ var uiHandler = {
             dictionary.parseFile(
                 self.$FILE_dictionary[0].files[0],
                 function() {
+                    self._renderBlocksSelectionDiv();
                     self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
                     self.$DIV_blocksSize.show();
+                    self.$DIV_blocksSelection.show();
+                    self.$DIV_blockRepitions.show();
+                    self.$BTN_start.show();
                 }
             );
         });
@@ -111,12 +115,9 @@ var uiHandler = {
 
         this.$TXT_blockSize.on('change', function(event){
             self._renderBlocksSelectionDiv();
-            self.$DIV_blocksSelection.show();
-            self.$DIV_blockRepitions.show();
         });
 
         this.$TXT_blockRepitions.on('change', function(event) {
-            self.$BTN_start.show();
         });
 
         this.$BTN_start.on('click', function(event) {
@@ -131,6 +132,7 @@ var uiHandler = {
             $('<input />', { type: 'checkbox', id: 'block_' + i, value: '' }).appendTo(this.$DIV_blocksSelection[0]);
             $('<label />', { 'for': 'block_' + i, text: 'Block ' + (i+1), 'style': "padding-right: 20px;" }).appendTo(this.$DIV_blocksSelection[0]);
         }
+        $('#block_0').prop( "checked", true );
     },
 
 };
