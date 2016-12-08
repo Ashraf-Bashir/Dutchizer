@@ -45,15 +45,11 @@ var dictionary = {
 
     _clearTranslations: function() {
         this.translations = {};
-    }
+    },
+
 };
 
 var uiHandler = {
-    $LBL_englishWord : undefined,
-    $TXT_dutchWord   : undefined,
-    $LBL_result      : undefined,
-    $FILE_dictionary : undefined,
-    $DIV_translate   : undefined,
 
     init: function() {
         this._initFields();
@@ -61,11 +57,17 @@ var uiHandler = {
     },
 
     _initFields: function() {
-        this.$LBL_englishWord = $('#english_word');
-        this.$TXT_dutchWord   = $('#dutch_word');
-        this.$LBL_result      = $('#result');
-        this.$FILE_dictionary = $('#dictionary_file');
-        this.$DIV_translate   = $('#translate_div');
+        this.$LBL_englishWord     = $('#english_word');
+        this.$TXT_dutchWord       = $('#dutch_word');
+        this.$LBL_result          = $('#result');
+        this.$FILE_dictionary     = $('#dictionary_file');
+        this.$DIV_translate       = $('#translate_div');
+        this.$TXT_blockSize       = $('#block_size');
+        this.$TXT_blockRepitions  = $('#block_repititions');
+        this.$DIV_blocksSelection = $('#blocks_selection_div');
+        this.$DIV_blocksSize      = $('#block_size_div');
+        this.$DIV_blockRepitions  = $('#block_repititions_div');
+        this.$BTN_start           = $('#start');
     },
 
     _bindActions: function() {
@@ -76,7 +78,7 @@ var uiHandler = {
                 self.$FILE_dictionary[0].files[0],
                 function() {
                     self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
-                    self.$DIV_translate.show();
+                    self.$DIV_blocksSize.show();
                 }
             );
         });
@@ -106,7 +108,31 @@ var uiHandler = {
                 };
             };
         });
-    }
+
+        this.$TXT_blockSize.on('change', function(event){
+            self._renderBlocksSelectionDiv();
+            self.$DIV_blocksSelection.show();
+            self.$DIV_blockRepitions.show();
+        });
+
+        this.$TXT_blockRepitions.on('change', function(event) {
+            self.$BTN_start.show();
+        });
+
+        this.$BTN_start.on('click', function(event) {
+            self.$DIV_translate.show();
+        });
+    },
+
+    _renderBlocksSelectionDiv: function() {
+        this.$DIV_blocksSelection.html("");
+        var blockCount = Math.ceil( Object.keys(dictionary.translations).length / this.$TXT_blockSize.val() ); 
+        for ( var i = 0; i < blockCount; i++ ) {
+            $('<input />', { type: 'checkbox', id: 'block_' + i, value: '' }).appendTo(this.$DIV_blocksSelection[0]);
+            $('<label />', { 'for': 'block_' + i, text: 'Block ' + (i+1), 'style': "padding-right: 20px;" }).appendTo(this.$DIV_blocksSelection[0]);
+        }
+    },
+
 };
 
 $( document ).ready( function() {

@@ -4,7 +4,11 @@
 </head>
 
 <body>
-    <input id="dictionary_file" type="file" > </input>
+    <div> Dictionary : <input id='dictionary_file' type="file" > </input> <br/> </div>
+    <div id='block_size_div' hidden> Block Size : <input type='number' id='block_size' min='1'> </input> <br/> </div> 
+    <div id='blocks_selection_div' hidden> </div>
+    <div id='block_repititions_div' hidden> Block Reps : <input type='number' id='block_repititions' min='1' > </input> <br/> </div> 
+    <button id="start" type="button" hidden> Start </button>
     <hr />
     <div id='translate_div' hidden>
         <label id = 'english_word' > </label>
