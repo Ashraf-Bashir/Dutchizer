@@ -48,46 +48,67 @@ var dictionary = {
     }
 };
 
-$( document ).ready( function() {
-    var $LBL_englishWord = $('#english_word');
-    var $TXT_dutchWord = $('#dutch_word');
-    var $LBL_result = $('#result');
-    var $FILE_dictionary = $('#dictionary_file');
-    var $DIV_translate = $('#translate_div');
+var uiHandler = {
+    $LBL_englishWord : undefined,
+    $TXT_dutchWord   : undefined,
+    $LBL_result      : undefined,
+    $FILE_dictionary : undefined,
+    $DIV_translate   : undefined,
 
-    $FILE_dictionary[0].addEventListener('change', function(event) {
-        dictionary.parseFile(
-            $FILE_dictionary[0].files[0],
-            function() {
-                $LBL_englishWord.text( engine.pickAnEnglishWord() );
-                $DIV_translate.show();
-            }
-        );
-    });
+    init: function() {
+        this._initFields();
+        this._bindActions();
+    },
 
-    $TXT_dutchWord.on('keyup', function(event) {
-        if (event.keyCode == 13) {
-            if ( engine.isCorrectTranslation( $LBL_englishWord.text(), this.value ) ) {
-                $LBL_result.text('correct');
-                setTimeout(
-                    function() {
-                        $LBL_englishWord.text( engine.pickAnEnglishWord() );
-                        $TXT_dutchWord.val('');
-                        $LBL_result.text('');
-                    }, 1000
-                );
-            } else {
-                $LBL_result.text(
-                    "solution is: '"
-                    + dictionary.translations[$LBL_englishWord.text()]
-                    + "', Type it please!"
-                );
-                setTimeout(
-                    function() {
-                        $LBL_result.text('');
-                    }, 2000
-                );
+    _initFields: function() {
+        this.$LBL_englishWord = $('#english_word');
+        this.$TXT_dutchWord   = $('#dutch_word');
+        this.$LBL_result      = $('#result');
+        this.$FILE_dictionary = $('#dictionary_file');
+        this.$DIV_translate   = $('#translate_div');
+    },
+
+    _bindActions: function() {
+        var self = this;
+
+        this.$FILE_dictionary[0].addEventListener('change', function(event) {
+            dictionary.parseFile(
+                self.$FILE_dictionary[0].files[0],
+                function() {
+                    self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
+                    self.$DIV_translate.show();
+                }
+            );
+        });
+
+        this.$TXT_dutchWord.on('keyup', function(event) {
+            if (event.keyCode == 13) {
+                if ( engine.isCorrectTranslation( self.$LBL_englishWord.text(), this.value.trim() ) ) {
+                    self.$LBL_result.text('correct');
+                    setTimeout(
+                        function() {
+                            self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
+                            self.$TXT_dutchWord.val('');
+                            self.$LBL_result.text('');
+                        }, 1000
+                    );
+                } else {
+                    self.$LBL_result.text(
+                        "solution is: '"
+                        + dictionary.translations[self.$LBL_englishWord.text()]
+                        + "', Type it please!"
+                    );
+                    setTimeout(
+                        function() {
+                            self.$LBL_result.text('');
+                        }, 2000
+                    );
+                };
             };
-        };
-    });
+        });
+    }
+};
+
+$( document ).ready( function() {
+    uiHandler.init();
 });
