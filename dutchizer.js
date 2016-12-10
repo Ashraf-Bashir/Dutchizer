@@ -5,8 +5,15 @@ var engine = {
     blockSize: 5,
     blockRepitions: 5,
 
+    _wordsCount: 0,
+    _activeEnglishWords: [],
+
     isCorrectTranslation: function ( english, dutch ) {
         return dictionary.translations[english] == dutch;
+    },
+
+    getWordsCount: function () {
+        return this._activeEnglishWords.length;
     },
 
     pickAnEnglishWord: function () {
@@ -33,7 +40,8 @@ var engine = {
                 Object.keys(dictionary.translations).slice( startIndex, endIndex + 1 )
             );
         }
-        return englishWords;
+        this._activeEnglishWords = englishWords;
+        return this._activeEnglishWords;
     },
 };
 
@@ -108,6 +116,37 @@ var textToSpeech = {
     }
 };
 
+var progressBar = {
+    _container: undefined,
+    _bar: undefined,
+    _lanel: undefined,
+    _steps: 100,
+    _stepPercentage: 1,
+    _currentPercentage: 0,
+    init: function (steps) {
+        this._container = $('#progress')[0];
+        this._bar = $('#bar')[0];
+        this._label = $('#progress_label')[0];
+        if (steps) {
+            this._steps = steps;
+            this._initStepPercentage();
+        }
+    },
+    show: function () {
+        $(this._container).show();
+    },
+    move: function () {
+        this._currentPercentage = this._currentPercentage + this._stepPercentage;
+        if ( this._currentPercentage > 100 )
+            this._currentPercentage = 100;
+        this._bar.style.width = this._currentPercentage + '%';
+        this._label.innerHTML = this._currentPercentage + '%';
+    },
+    _initStepPercentage: function () {
+        this._stepPercentage = parseInt(100 / this._steps);
+    },
+};
+
 var uiHandler = {
 
     init: function() {
@@ -161,6 +200,7 @@ var uiHandler = {
                 if ( engine.isCorrectTranslation( self.$LBL_englishWord.text(), this.value.trim() ) ) {
                     self.$LBL_correctAnswer.text('');
                     self._showCorrectIcon();
+                    progressBar.move();
                     textToSpeech.speak(this.value.trim());
                     setTimeout(
                         function() {
@@ -196,6 +236,8 @@ var uiHandler = {
 
         this.$BTN_start.on('click', function(event) {
             self._startAsking();
+            progressBar.init( engine.getWordsCount() * engine.blockRepitions );
+            progressBar.show();
         });
 
         $('body').on('change', 'input[type="checkbox"]', function() {
