@@ -104,7 +104,7 @@ var uiHandler = {
     _initFields: function() {
         this.$LBL_englishWord     = $('#english_word');
         this.$TXT_dutchWord       = $('#dutch_word');
-        this.$LBL_result          = $('#result');
+        this.$LBL_correctAnswer   = $('#correct_answer');
         this.$FILE_dictionary     = $('#dictionary_file');
         this.$DIV_translate       = $('#translate_div');
         this.$TXT_blockSize       = $('#block_size');
@@ -113,6 +113,17 @@ var uiHandler = {
         this.$DIV_blocksSize      = $('#block_size_div');
         this.$DIV_blockRepitions  = $('#block_repititions_div');
         this.$BTN_start           = $('#start');
+        this.$IMG_resultIcon      = $('#result_icon');
+    },
+
+    _showCorrectIcon: function() {
+        this.$IMG_resultIcon.attr('src', 'Images/correct.png');
+        this.$IMG_resultIcon.show();
+    },
+
+    _showWrongIcon: function() {
+        this.$IMG_resultIcon.attr('src', 'Images/wrong.png');
+        this.$IMG_resultIcon.show();
     },
 
     _bindActions: function() {
@@ -134,24 +145,26 @@ var uiHandler = {
         this.$TXT_dutchWord.on('keyup', function(event) {
             if (event.keyCode == 13) {
                 if ( engine.isCorrectTranslation( self.$LBL_englishWord.text(), this.value.trim() ) ) {
-                    self.$LBL_result.text('correct');
+                    self.$LBL_correctAnswer.text('');
+                    self._showCorrectIcon();
                     textToSpeech.speak(this.value.trim());
                     setTimeout(
                         function() {
                             self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
                             self.$TXT_dutchWord.val('');
-                            self.$LBL_result.text('');
+                            self.$LBL_correctAnswer.text('');
+                            self.$IMG_resultIcon.hide();
                         }, 1000
                     );
                 } else {
-                    self.$LBL_result.text(
-                        "solution is: '"
-                        + dictionary.translations[self.$LBL_englishWord.text()]
-                        + "', Type it please!"
-                    );
+                    self._showWrongIcon();
+                    var correctAnswer = dictionary.translations[self.$LBL_englishWord.text()];
+                    self.$LBL_correctAnswer.text( correctAnswer );
+                    textToSpeech.speak( correctAnswer );
                     setTimeout(
                         function() {
-                            self.$LBL_result.text('');
+                            self.$LBL_correctAnswer.text('');
+                            self.$IMG_resultIcon.hide();
                         }, 2000
                     );
                 };
