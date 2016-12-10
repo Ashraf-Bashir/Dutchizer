@@ -10,7 +10,7 @@ var engine = {
     },
 
     pickAnEnglishWord: function () {
-        var englishWords = Object.keys(dictionary.translations);
+        var englishWords = this._getEnglishWords();
         var randomIndex = Math.floor(Math.random() * (englishWords.length-0) );
         var englishWord = englishWords[randomIndex];
         if ( englishWord != this.lastEngishWord ) {
@@ -19,6 +19,21 @@ var engine = {
         }
         else
             return this.pickAnEnglishWord();
+    },
+
+    _getEnglishWords: function () {
+        var englishWords = [];
+        for ( var i = 0; i < this.blocksIndices.length ; i++ ) {
+            var blockIndex = this.blocksIndices[i];
+            var startIndex = blockIndex * this.blockSize;
+            var endIndex = startIndex + this.blockSize - 1;
+            if ( endIndex > Object.keys(dictionary.translations).length - 1 )
+                endIndex = Object.keys(dictionary.translations).length - 1;
+            englishWords = englishWords.concat(
+                Object.keys(dictionary.translations).slice( startIndex, endIndex + 1 )
+            );
+        }
+        return englishWords;
     },
 };
 
@@ -68,7 +83,7 @@ var utils = {
             }
         }
         return arr;
-    }
+    },
 };
 
 var uiHandler = {
