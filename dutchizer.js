@@ -81,6 +81,19 @@ var utils = {
     },
 };
 
+var textToSpeech = {
+    speak: function(text) {
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = text;
+        msg.voice = speechSynthesis.getVoices().filter(
+            function(voice) {
+                return voice.name == 'Google Nederlands';
+            }
+        )[0];
+        window.speechSynthesis.speak(msg);
+    }
+};
+
 var uiHandler = {
 
     init: function() {
@@ -122,6 +135,7 @@ var uiHandler = {
             if (event.keyCode == 13) {
                 if ( engine.isCorrectTranslation( self.$LBL_englishWord.text(), this.value.trim() ) ) {
                     self.$LBL_result.text('correct');
+                    textToSpeech.speak(this.value.trim());
                     setTimeout(
                         function() {
                             self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
