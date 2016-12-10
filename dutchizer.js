@@ -69,11 +69,6 @@ var dictionary = {
 };
 
 var utils = {
-    insertSorted: function (array, value) {
-        array.push( value );
-        array.sort();
-    },
-
     removeItem: function (arr) {
         var what, a = arguments, L = a.length, ax;
         while (L > 1 && arr.length) {
@@ -164,10 +159,7 @@ var uiHandler = {
 
         $('body').on('change', 'input[type="checkbox"]', function() {
             if ( this.checked ) {
-                utils.insertSorted(
-                    engine.blocksIndices,
-                    parseInt( this.id.replace('block_', '') )
-                );
+                engine.blocksIndices.push( parseInt( this.id.replace('block_', '') ) );
             } else {
                 utils.removeItem(
                     engine.blocksIndices,
