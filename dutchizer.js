@@ -1,6 +1,10 @@
 var engine = {
     lastEngishWord: '',
 
+    blocksIndices: [0],
+    blockSize: 5,
+    blockRepitions: 5,
+
     isCorrectTranslation: function ( english, dutch ) {
         return dictionary.translations[english] == dutch;
     },
@@ -47,6 +51,24 @@ var dictionary = {
         this.translations = {};
     },
 
+};
+
+var utils = {
+    insertSorted: function (array, value) {
+        array.push( value );
+        array.sort();
+    },
+
+    removeItem: function (arr) {
+        var what, a = arguments, L = a.length, ax;
+        while (L > 1 && arr.length) {
+            what = a[--L];
+            while ((ax= arr.indexOf(what)) !== -1) {
+                arr.splice(ax, 1);
+            }
+        }
+        return arr;
+    }
 };
 
 var uiHandler = {
@@ -114,15 +136,35 @@ var uiHandler = {
 
         this.$TXT_blockSize.on('change', function(event){
             self._renderBlocksSelectionDiv();
+            engine.blockSize = parseInt( self.$TXT_blockSize.val() );
         });
 
         this.$TXT_blockRepitions.on('change', function(event) {
+            engine.blockRepitions = parseInt( self.$TXT_blockRepitions.val() );
         });
 
         this.$BTN_start.on('click', function(event) {
-            self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
-            self.$DIV_translate.show();
+            self._startAsking();
         });
+
+        $('body').on('change', 'input[type="checkbox"]', function() {
+            if ( this.checked ) {
+                utils.insertSorted(
+                    engine.blocksIndices,
+                    parseInt( this.id.replace('block_', '') )
+                );
+            } else {
+                utils.removeItem(
+                    engine.blocksIndices,
+                    parseInt( this.id.replace('block_', '') )
+                );
+            }
+        });
+    },
+
+    _startAsking: function() {
+        this.$LBL_englishWord.text( engine.pickAnEnglishWord() );
+        this.$DIV_translate.show();
     },
 
     _renderBlocksSelectionDiv: function() {
