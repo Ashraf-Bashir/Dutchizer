@@ -82,15 +82,29 @@ var utils = {
 };
 
 var textToSpeech = {
-    speak: function(text) {
-        var msg = new SpeechSynthesisUtterance();
-        msg.text = text;
-        msg.voice = speechSynthesis.getVoices().filter(
+    _speechSynthesisUtterance: undefined,
+    _language_code: 'nl-NL',
+
+    init: function () {
+        var self = this;
+        this._speechSynthesisUtterance = new SpeechSynthesisUtterance();
+        window.speechSynthesis.onvoiceschanged = function() {
+            self._setLanguage();
+        };
+    },
+
+    _setLanguage: function() {
+        var self = this;
+        this._speechSynthesisUtterance.voice = window.speechSynthesis.getVoices().filter(
             function(voice) {
-                return voice.name == 'Google Nederlands';
+                return voice.lang == self._language_code;
             }
         )[0];
-        window.speechSynthesis.speak(msg);
+    },
+
+    speak: function(text) {
+        this._speechSynthesisUtterance.text = text;
+        window.speechSynthesis.speak(this._speechSynthesisUtterance);
     }
 };
 
@@ -214,5 +228,6 @@ var uiHandler = {
 };
 
 $( document ).ready( function() {
+    textToSpeech.init();
     uiHandler.init();
 });
