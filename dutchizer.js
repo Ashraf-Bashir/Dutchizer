@@ -78,7 +78,6 @@ var uiHandler = {
                 self.$FILE_dictionary[0].files[0],
                 function() {
                     self._renderBlocksSelectionDiv();
-                    self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
                     self.$DIV_blocksSize.show();
                     self.$DIV_blocksSelection.show();
                     self.$DIV_blockRepitions.show();
@@ -121,6 +120,7 @@ var uiHandler = {
         });
 
         this.$BTN_start.on('click', function(event) {
+            self.$LBL_englishWord.text( engine.pickAnEnglishWord() );
             self.$DIV_translate.show();
         });
     },
