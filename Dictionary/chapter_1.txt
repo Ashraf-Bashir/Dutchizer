@@ -1,5 +1,83 @@
+welcome to	welkom in
+good morning	goedemorgen
 altogether	allemaal
 course	de cursus
+dutch	nederlands
+am	ben
+and	en
+your (plural)	jullie
 teacher	de docent
+teachers	docenten
+have	hebben
 two	twee
 other	andere
+is	is
+he	hij
+teaches	geeft les
+days	dagen
+three	drie
+we	we
+begin	beginnen
+with	met
+get to know	kennismaken
+who	wie
+are	ben
+you	jij
+what	wat
+your (singular)	jouw
+name	de naam
+my	mijn
+day	dag
+your (singular)	je
+first name	de voornaam
+surname	de achternaam
+from	uit
+which	welk
+country	het land
+england	engeland
+come	kom
+neighbour	de buurman
+of	van
+how	hoe
+what's your name	hoe heet jij
+is called	heet
+where from	waar vandaan
+where	waar
+china	china
+live	woon
+now	nu
+address	het adres
+number	het nummer
+no	nee
+postal code	de postcode
+you	u
+miss	mevrouw
+lives	woont
+also	ook
+in	in
+say	zeg
+but	maar
+yes	ja
+here	hier
+already	al
+twenty	twintig
+year	het jaar
+go on	gaan verder
+lesson	de les
+has	heeft
+everyone	iedereen
+book	het boek
+cd	de cd
+text	de tekst
+one	een
+on	op
+page	de bladzijde
+eight	acht
+listen	luisteren
+to	naar
+stop	stoppen
+for a moment	even
+it is	het is
+break	de pauze
+see you later	tot straks
+later	straks
