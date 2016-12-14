@@ -269,6 +269,8 @@ var uiHandler = {
         this.$DIV_blocksSelection.html("");
         var blockCount = Math.ceil( Object.keys(dictionary.translations).length / this.$TXT_blockSize.val() ); 
         for ( var i = 0; i < blockCount; i++ ) {
+            if ( i != 0 && i % 5 == 0 )
+                $('<br />').appendTo(this.$DIV_blocksSelection[0]);
             $('<input />', { type: 'checkbox', id: 'block_' + i, value: '' }).appendTo(this.$DIV_blocksSelection[0]);
             $('<label />', { 'for': 'block_' + i, text: 'Block ' + (i+1), 'style': "padding-right: 20px;" }).appendTo(this.$DIV_blocksSelection[0]);
         }
