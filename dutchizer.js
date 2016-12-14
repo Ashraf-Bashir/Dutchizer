@@ -119,7 +119,7 @@ var textToSpeech = {
 var progressBar = {
     _container: undefined,
     _bar: undefined,
-    _lanel: undefined,
+    _label: undefined,
     _steps: 100,
     _stepPercentage: 1,
     _currentPercentage: 0,
