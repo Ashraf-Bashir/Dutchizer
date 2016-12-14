@@ -139,7 +139,7 @@ var progressBar = {
         this._redraw();
     },
     _initStepPercentage: function () {
-        this._stepPercentage = parseInt(100 / this._steps);
+        this._stepPercentage = 100 / this._steps;
     },
     reset: function (steps) {
         if (steps) {
@@ -150,8 +150,8 @@ var progressBar = {
         this._redraw();
     },
     _redraw: function() {
-        this._bar.style.width = this._currentPercentage + '%';
-        this._label.innerHTML = this._currentPercentage + '%';
+        this._bar.style.width = parseInt(this._currentPercentage)  + '%';
+        this._label.innerHTML = this._currentPercentage.toFixed(2) + '%';
     },
 };
 
