@@ -1,9 +1,9 @@
 # Dutchizer
 A tool to self-learn Dutch
 
-This tool can be used to teach you Dutch language.__
-It will keep asking you to translate from EN to NL.__
-By many repetitions, it will enhance your memory.__
+This tool can be used to teach you Dutch language.<br/>
+It will keep asking you to translate from EN to NL.<br/>
+By many repetitions, it will enhance your memory.<br/>
 
 Author: Ashraf Bashir
 Email: eng.bashir@gmail.com
