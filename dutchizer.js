@@ -5,8 +5,12 @@ var engine = {
     blockSize: 5,
     blockRepitions: 5,
 
+    complexTranslations: [],
+
     _wordsCount: 0,
     _activeEnglishWords: [],
+
+    isComplexTraining: false,
 
     isCorrectTranslation: function ( english, dutch ) {
         return dictionary.translations[english] == dutch;
@@ -14,6 +18,11 @@ var engine = {
 
     getWordsCount: function () {
         return this._activeEnglishWords.length;
+    },
+
+    addComplexTranslation: function (englishWord) {
+        if ( $.inArray(englishWord, this.complexTranslations) <= -1 )
+            this.complexTranslations.push(englishWord);
     },
 
     pickAnEnglishWord: function () {
@@ -29,6 +38,9 @@ var engine = {
     },
 
     _getEnglishWords: function () {
+        if (this.isComplexTraining)
+            return this.complexTranslations;
+
         var englishWords = [];
         for ( var i = 0; i < this.blocksIndices.length ; i++ ) {
             var blockIndex = this.blocksIndices[i];
@@ -175,6 +187,8 @@ var uiHandler = {
         this.$DIV_blockRepitions  = $('#block_repititions_div');
         this.$BTN_start           = $('#start');
         this.$IMG_resultIcon      = $('#result_icon');
+        this.$BTN_startComplex    = $('#start_complex');
+        this.$BTN_addComplexWord  = $('#add_complex');
     },
 
     _showCorrectIcon: function() {
@@ -243,9 +257,24 @@ var uiHandler = {
         });
 
         this.$BTN_start.on('click', function(event) {
+            engine.isComplexTraining = false;
+            self._startAsking();
+            self.$BTN_startComplex.text( 'Start Complex Words Training' );
+            progressBar.init( engine.getWordsCount() * engine.blockRepitions );
+            progressBar.show();
+        });
+
+        this.$BTN_startComplex.on('click', function(event) {
+            engine.isComplexTraining = true;
             self._startAsking();
             progressBar.init( engine.getWordsCount() * engine.blockRepitions );
             progressBar.show();
+        });
+
+        this.$BTN_addComplexWord.on('click', function(event) {
+            engine.addComplexTranslation( self.$LBL_englishWord.text() );
+            self.$BTN_startComplex.text( 'Start Complex Words Training (' + engine.complexTranslations.length + ')' );
+            self.$BTN_startComplex.show();
         });
 
         $('body').on('change', 'input[type="checkbox"]', function() {
