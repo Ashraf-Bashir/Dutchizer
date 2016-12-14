@@ -127,10 +127,7 @@ var progressBar = {
         this._container = $('#progress')[0];
         this._bar = $('#bar')[0];
         this._label = $('#progress_label')[0];
-        if (steps) {
-            this._steps = steps;
-            this._initStepPercentage();
-        }
+        this.reset(steps);
     },
     show: function () {
         $(this._container).show();
@@ -139,11 +136,22 @@ var progressBar = {
         this._currentPercentage = this._currentPercentage + this._stepPercentage;
         if ( this._currentPercentage > 100 )
             this._currentPercentage = 100;
-        this._bar.style.width = this._currentPercentage + '%';
-        this._label.innerHTML = this._currentPercentage + '%';
+        this._redraw();
     },
     _initStepPercentage: function () {
         this._stepPercentage = parseInt(100 / this._steps);
+    },
+    reset: function (steps) {
+        if (steps) {
+            this._steps = steps;
+            this._initStepPercentage();
+        }
+        this._currentPercentage = 0;
+        this._redraw();
+    },
+    _redraw: function() {
+        this._bar.style.width = this._currentPercentage + '%';
+        this._label.innerHTML = this._currentPercentage + '%';
     },
 };
 
