@@ -27,7 +27,7 @@ what	wat
 your (singular)	jouw
 name	de naam
 my	mijn
-day	dag
+day	de dag
 your (singular)	je
 first name	de voornaam
 surname	de achternaam
